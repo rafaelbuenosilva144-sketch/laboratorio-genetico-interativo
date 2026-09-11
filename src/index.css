@@ -2,79 +2,615 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* ======================================
+   CONFIGURAÇÃO GLOBAL
+====================================== */
+
 :root {
-  color: #F8FBFF;
-  background: #040816;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  color:#F8FBFF;
+
+  background:#040816;
+
+  font-family:
+  Inter,
+  ui-sans-serif,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  sans-serif;
+
 }
 
-html, body, #root {
-  min-height: 100%;
+
+html,
+body,
+#root {
+
+  min-height:100%;
+
+  width:100%;
+
 }
+
 
 body {
-  margin: 0;
+
+  margin:0;
+
+  overflow-x:hidden;
+
   background:
-    radial-gradient(circle at top center, rgba(33, 76, 183, 0.20), transparent 34%),
-    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.18), transparent 20%),
-    linear-gradient(180deg, #050816 0%, #040611 100%);
+
+  radial-gradient(
+    circle at top center,
+    rgba(0,229,255,.15),
+    transparent 35%
+  ),
+
+  radial-gradient(
+    circle at 80% 20%,
+    rgba(139,92,246,.18),
+    transparent 25%
+  ),
+
+  linear-gradient(
+    180deg,
+    #050816,
+    #020617
+  );
+
 }
+
+
+/* Remove seleção feia em telas touch */
 
 ::selection {
-  background: rgba(0,229,255,.18);
+
+background:
+rgba(0,229,255,.25);
+
 }
+
+
+/* ======================================
+   COMPONENTES PRINCIPAIS
+====================================== */
+
 
 @layer components {
-  .glass-panel {
-    @apply rounded-3xl border border-white/10 bg-lab-card backdrop-blur-xl shadow-glow;
-  }
 
-  .section-title {
-    @apply text-2xl md:text-3xl font-bold tracking-tight text-white;
-  }
 
-  .section-subtitle {
-    @apply text-sm md:text-base text-white/75 max-w-3xl;
-  }
+.glass-panel {
 
-  .chip {
-    @apply inline-flex items-center rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-200;
-  }
 
-  .lab-button {
-    @apply inline-flex items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-400/15 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:-translate-y-0.5 hover:bg-cyan-400/25 active:translate-y-0;
-  }
+  @apply
 
-  .secondary-button {
-    @apply inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/80 transition hover:bg-white/10;
-  }
+  w-full
 
-  .option-tile {
-    @apply rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left transition hover:border-cyan-300/30 hover:bg-white/10;
-  }
+  rounded-2xl
 
-  .option-tile.active {
-    @apply border-cyan-300/40 bg-cyan-400/10 shadow-glow;
-  }
+  sm:rounded-3xl
 
-  .label {
-    @apply text-xs uppercase tracking-[0.18em] text-white/50;
-  }
+  border
 
-  .metric {
-    @apply rounded-2xl border border-white/10 bg-white/5 p-4;
-  }
+  border-white/10
+
+  bg-white/5
+
+  backdrop-blur-xl
+
+  shadow-glow;
+
+
+  padding:
+
+  clamp(
+    1rem,
+    3vw,
+    2rem
+  );
+
+
 }
+
+
+
+.section-title {
+
+
+@apply
+
+text-xl
+
+font-bold
+
+text-white
+
+
+sm:text-2xl
+
+
+md:text-3xl;
+
+
+}
+
+
+
+.section-subtitle {
+
+
+@apply
+
+text-sm
+
+leading-relaxed
+
+text-white/70
+
+
+md:text-base;
+
+
+}
+
+
+
+
+.chip {
+
+
+@apply
+
+inline-flex
+
+items-center
+
+rounded-full
+
+border
+
+border-cyan-300/30
+
+bg-cyan-400/10
+
+px-3
+
+py-1
+
+text-xs
+
+font-medium
+
+text-cyan-100;
+
+
+}
+
+
+
+.lab-button {
+
+
+@apply
+
+inline-flex
+
+items-center
+
+justify-center
+
+rounded-2xl
+
+border
+
+border-cyan-300/30
+
+bg-cyan-400/20
+
+px-5
+
+py-3
+
+text-sm
+
+font-semibold
+
+text-white
+
+transition;
+
+
+min-height:48px;
+
+
+}
+
+
+
+.lab-button:hover {
+
+
+@apply
+
+bg-cyan-400/30;
+
+
+}
+
+
+
+
+.secondary-button {
+
+
+@apply
+
+inline-flex
+
+items-center
+
+justify-center
+
+rounded-2xl
+
+border
+
+border-white/10
+
+bg-white/5
+
+px-5
+
+py-3
+
+text-sm
+
+font-semibold
+
+text-white;
+
+
+min-height:48px;
+
+
+}
+
+
+
+
+.option-tile {
+
+
+@apply
+
+rounded-2xl
+
+border
+
+border-white/10
+
+bg-white/5
+
+px-4
+
+py-4
+
+text-left
+
+text-white
+
+transition;
+
+
+min-height:52px;
+
+
+}
+
+
+
+.option-tile:hover {
+
+
+@apply
+
+bg-white/10
+
+border-cyan-300/30;
+
+
+}
+
+
+
+
+.option-tile.active {
+
+
+@apply
+
+border-cyan-300/50
+
+bg-cyan-400/10
+
+shadow-glow;
+
+
+}
+
+
+
+
+.label {
+
+
+@apply
+
+text-xs
+
+uppercase
+
+tracking-[.18em]
+
+text-white/50;
+
+
+}
+
+
+
+
+.metric {
+
+
+@apply
+
+rounded-2xl
+
+border
+
+border-white/10
+
+bg-black/20
+
+p-4;
+
+
+}
+
+
+
+}
+
+
+/* ======================================
+   TOUCH SCREEN
+====================================== */
+
+
+button,
+select {
+
+touch-action:manipulation;
+
+-webkit-tap-highlight-color:transparent;
+
+}
+
+
+
+
+button {
+
+
+user-select:none;
+
+
+}
+
+
+
+/* ======================================
+   GRID DO LABORATÓRIO
+====================================== */
+
 
 .grid-overlay {
-  background-size: 28px 28px;
+
+
+background-size:
+
+32px
+
+32px;
+
+
 }
+
+
+
+/* ======================================
+   BARRA DE ROLAGEM
+====================================== */
+
 
 .scrollbar-thin::-webkit-scrollbar {
-  width: 8px;
+
+
+width:8px;
+
+
 }
 
+
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,.18);
-  border-radius: 999px;
+
+
+background:
+
+rgba(255,255,255,.18);
+
+
+border-radius:999px;
+
+
+}
+
+
+
+/* ======================================
+   ANIMAÇÃO DE PARTÍCULAS
+====================================== */
+
+
+@keyframes floatUp {
+
+
+from {
+
+
+transform:
+
+translateY(0px);
+
+opacity:.3;
+
+
+}
+
+
+to {
+
+
+transform:
+
+translateY(-25px);
+
+opacity:1;
+
+
+}
+
+
+}
+
+
+
+
+
+/* ======================================
+   RESPONSIVIDADE CELULAR
+====================================== */
+
+
+@media(max-width:640px){
+
+
+body{
+
+font-size:14px;
+
+}
+
+
+
+.glass-panel{
+
+
+border-radius:20px;
+
+
+}
+
+
+
+h1{
+
+
+line-height:1.1;
+
+
+}
+
+
+
+button{
+
+
+width:100%;
+
+
+}
+
+
+
+.metric{
+
+
+padding:12px;
+
+
+}
+
+
+}
+
+
+
+/* ======================================
+   TABLET
+====================================== */
+
+
+@media(min-width:641px)
+and
+(max-width:1024px){
+
+
+
+.glass-panel{
+
+
+padding:1.5rem;
+
+
+}
+
+
+}
+
+
+
+/* ======================================
+   TELAS GRANDES / TOTEM
+====================================== */
+
+
+@media(min-width:1600px){
+
+
+body{
+
+
+font-size:18px;
+
+
+}
+
+
+
+.glass-panel{
+
+
+padding:2.5rem;
+
+
+}
+
+
+
 }

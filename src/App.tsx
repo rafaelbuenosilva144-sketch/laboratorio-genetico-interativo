@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, Dna } from "lucide-react";
+import { ChevronLeft, ChevronRight, Dna, Maximize } from "lucide-react";
 
 import { ParticleField } from "./components/lab/ParticleField";
 import { StepBadge } from "./components/ui/StepBadge";
@@ -42,61 +42,65 @@ const stepLabels = [
 
 export default function App() {
 
-  const [step, setStep] = useState(0);
+
+  const [step,setStep] = useState(0);
 
 
-  const [creatorState, setCreatorState] =
+  const [creatorState,setCreatorState] =
     useState(creatorDefaults);
 
 
-  const [parentA, setParentA] =
+  const [parentA,setParentA] =
     useState<Genotype>("Bb");
 
 
-  const [parentB, setParentB] =
+  const [parentB,setParentB] =
     useState<Genotype>("bb");
 
 
-  // CORREÇÃO AQUI
-  const [mutationState, setMutationState] =
-    useState<MutationState>(defaultMutationState);
+  const [mutationState,setMutationState] =
+    useState<MutationState>(
+      defaultMutationState
+    );
 
 
-  const [environment, setEnvironment] =
+  const [environment,setEnvironment] =
     useState<EnvironmentType>(
       "Temperatura elevada"
     );
 
 
+
   const profile = useMemo(
-    () => buildOrganismProfile(creatorState),
+    ()=>buildOrganismProfile(creatorState),
     [creatorState]
   );
 
 
   const heredity = useMemo(
-    () => simulateHeredity(parentA, parentB),
-    [parentA, parentB]
+    ()=>simulateHeredity(parentA,parentB),
+    [parentA,parentB]
   );
 
 
   const evolution = useMemo(
-    () => evolutionByEnvironment(environment),
+    ()=>evolutionByEnvironment(environment),
     [environment]
   );
 
 
   const mutationText = useMemo(
-    () => mutationAnalysis(mutationState),
+    ()=>mutationAnalysis(mutationState),
     [mutationState]
   );
 
 
+
   const reportSummary = useMemo(
-    () => ({
-      organism: profile,
+    ()=>({
+      organism:profile,
       heredity,
-      mutation: mutationState,
+      mutation:mutationState,
       environment,
       evolution
     }),
@@ -110,22 +114,36 @@ export default function App() {
   );
 
 
-  const next = () =>
-    setStep((current) =>
+
+  function next(){
+
+    setStep(
+      current =>
       Math.min(
-        current + 1,
-        stepLabels.length - 1
+        current+1,
+        stepLabels.length-1
       )
     );
 
+  }
 
-  const previous = () =>
-    setStep((current) =>
-      Math.max(current - 1, 0)
+
+
+  function previous(){
+
+    setStep(
+      current =>
+      Math.max(
+        current-1,
+        0
+      )
     );
 
+  }
 
-  const restart = () => {
+
+
+  function restart(){
 
     setStep(0);
 
@@ -144,300 +162,494 @@ export default function App() {
     setEnvironment(
       "Temperatura elevada"
     );
-  };
 
+  }
 
-  return (
 
-    <div className="relative min-h-screen overflow-hidden text-lab-white">
 
+  function fullscreen(){
 
-      <ParticleField />
+    if(document.documentElement.requestFullscreen){
 
+      document.documentElement.requestFullscreen();
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 md:px-6 lg:px-8">
+    }
 
+  }
 
-        <header className="mb-6 rounded-3xl border border-white/10 bg-black/20 px-4 py-4 backdrop-blur md:px-6">
 
 
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
 
+return (
 
-            <div className="flex items-center gap-3">
+<div className="
+relative
+min-h-screen
+overflow-hidden
+text-lab-white
+">
 
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-400/10">
+<ParticleField/>
 
-                <Dna className="h-6 w-6 text-cyan-200"/>
 
-              </div>
+<div className="
+relative
+z-10
+mx-auto
+flex
+min-h-screen
+w-full
+max-w-[1600px]
+flex-col
+px-3
+py-3
+sm:px-5
+md:px-8
+lg:px-10
+">
 
 
-              <div>
 
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">
+<header className="
+mb-4
+rounded-3xl
+border
+border-white/10
+bg-black/20
+p-4
+backdrop-blur
+">
 
-                  Feira de Ciências
 
-                </p>
+<div className="
+flex
+flex-col
+gap-4
 
+xl:flex-row
+xl:items-center
+xl:justify-between
+">
 
-                <h1 className="text-xl font-bold text-white md:text-2xl">
 
-                  Laboratório Genético Interativo
+<div className="
+flex
+items-center
+gap-3
+">
 
-                </h1>
 
-              </div>
+<div className="
+flex
+h-12
+w-12
+items-center
+justify-center
+rounded-2xl
+border
+border-cyan-300/20
+bg-cyan-400/10
+">
 
+<Dna className="
+h-6
+w-6
+text-cyan-200
+"/>
 
-            </div>
+</div>
 
 
 
-            <div className="flex flex-wrap gap-2">
+<div>
 
+<p className="
+text-xs
+uppercase
+tracking-[0.2em]
+text-cyan-200/80
+">
 
-              {stepLabels.map(
-                (label,index)=>(
+FEIRA DE CIÊNCIAS
 
-                <StepBadge
+</p>
 
-                  key={label}
 
-                  index={index+1}
+<h1 className="
+text-lg
+font-bold
+text-white
 
-                  label={label}
+sm:text-xl
 
-                  active={index===step}
+md:text-2xl
 
-                  completed={index<step}
+lg:text-3xl
+">
 
-                />
+Laboratório Genético Interativo
 
-              ))}
+</h1>
 
 
-            </div>
+</div>
 
 
-          </div>
+</div>
 
 
-        </header>
 
 
 
-        <main className="flex-1 space-y-6">
+<div className="
+flex
+flex-wrap
+gap-2
+">
 
 
-          {step===0 &&
-            <LandingModule
-              onStart={()=>setStep(1)}
-            />
-          }
+{stepLabels.map(
+(label,index)=>(
 
+<StepBadge
 
+key={label}
 
-          {step===1 &&
-            <DnaExplorerModule/>
-          }
+index={index+1}
 
+label={label}
 
+active={index===step}
 
-          {step===2 &&
-            <GeneticCreatorModule
+completed={index<step}
 
-              state={creatorState}
+/>
 
-              profile={profile}
+)
 
-              onChange={setCreatorState}
+)}
 
-            />
-          }
 
+</div>
 
 
-          {step===3 &&
+</div>
 
-            <HeredityModule
 
-              parentA={parentA}
+</header>
 
-              parentB={parentB}
 
-              result={heredity}
 
-              onChangeParentA={setParentA}
 
-              onChangeParentB={setParentB}
 
-            />
+<main className="
+flex-1
+space-y-5
+">
 
-          }
 
 
+{step===0 &&
 
-          {step===4 &&
+<LandingModule
 
-            <MutationModule
+onStart={()=>setStep(1)}
 
-              state={mutationState}
+/>
 
-              analysis={mutationText}
+}
 
 
-              onSelectIndex={
-                (selectedIndex)=>
 
-                setMutationState(
-                  current=>({
-                    ...current,
-                    selectedIndex
-                  })
-                )
-              }
 
 
-              onReplacement={
-                replacement=>
+{step===1 &&
 
-                setMutationState(
-                  current=>({
-                    ...current,
-                    replacement
-                  })
-                )
-              }
+<DnaExplorerModule/>
 
+}
 
-              onApply={()=>
 
-                setMutationState(
-                  current=>
-                  mutateSequence(current)
-                )
 
-              }
 
 
-              onReset={()=>
+{step===2 &&
 
-                setMutationState(
-                  defaultMutationState
-                )
+<GeneticCreatorModule
 
-              }
+state={creatorState}
 
-            />
+profile={profile}
 
-          }
+onChange={setCreatorState}
 
+/>
 
+}
 
-          {step===5 &&
 
-            <EvolutionModule
 
-              environment={environment}
 
-              data={evolution}
 
-              onChange={setEnvironment}
+{step===3 &&
 
-            />
+<HeredityModule
 
-          }
+parentA={parentA}
 
+parentB={parentB}
 
+result={heredity}
 
-          {step===6 &&
+onChangeParentA={setParentA}
 
-            <ReportModule
+onChangeParentB={setParentB}
 
-              summary={reportSummary}
+/>
 
-              onRestart={restart}
+}
 
-            />
 
-          }
 
 
 
+{step===4 &&
 
-          <div className="glass-panel p-4">
+<MutationModule
 
+state={mutationState}
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+analysis={mutationText}
 
 
-              <p className="text-sm text-white/70">
+onSelectIndex={(index)=>
 
-                Navegação da experiência científica.
+setMutationState(
+current=>({
 
-              </p>
+...current,
 
+selectedIndex:index
 
+})
+)
 
-              <div className="flex gap-3">
+}
 
 
-                <button
 
-                  className="secondary-button"
+onReplacement={(base)=>
 
-                  onClick={previous}
+setMutationState(
+current=>({
 
-                  disabled={step===0}
+...current,
 
-                >
+replacement:base
 
-                  <ChevronLeft className="mr-2 h-4 w-4"/>
+})
+)
 
-                  Voltar
+}
 
-                </button>
 
 
 
-                <button
+onApply={()=>
 
-                  className="lab-button"
 
-                  onClick={next}
+setMutationState(
 
-                  disabled={
-                    step===stepLabels.length-1
-                  }
+current=>
 
-                >
+mutateSequence(current)
 
-                  Próxima
+)
 
-                  <ChevronRight className="ml-2 h-4 w-4"/>
 
-                </button>
+}
 
 
-              </div>
 
+onReset={()=>
 
-            </div>
 
+setMutationState(
 
-          </div>
+defaultMutationState
 
+)
 
-        </main>
 
+}
 
-      </div>
 
+/>
 
-    </div>
+}
 
-  );
+
+
+
+
+{step===5 &&
+
+<EvolutionModule
+
+environment={environment}
+
+data={evolution}
+
+onChange={setEnvironment}
+
+/>
+
+}
+
+
+
+
+
+{step===6 &&
+
+<ReportModule
+
+summary={reportSummary}
+
+onRestart={restart}
+
+/>
+
+}
+
+
+
+
+<div className="
+glass-panel
+p-4
+">
+
+
+<div className="
+flex
+flex-col
+gap-3
+
+sm:flex-row
+
+sm:items-center
+
+sm:justify-between
+">
+
+
+<button
+
+className="
+secondary-button
+"
+
+onClick={fullscreen}
+
+>
+
+<Maximize className="
+mr-2
+h-4
+w-4
+"/>
+
+Tela cheia
+
+</button>
+
+
+
+
+<div className="
+flex
+gap-3
+">
+
+
+<button
+
+className="
+secondary-button
+"
+
+disabled={step===0}
+
+onClick={previous}
+
+>
+
+
+<ChevronLeft className="
+mr-2
+h-4
+w-4
+"/>
+
+
+Voltar
+
+
+</button>
+
+
+
+
+<button
+
+className="
+lab-button
+"
+
+disabled={
+step===stepLabels.length-1
+}
+
+onClick={next}
+
+>
+
+
+Próxima
+
+<ChevronRight className="
+ml-2
+h-4
+w-4
+"/>
+
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+</main>
+
+
+
+</div>
+
+
+</div>
+
+
+);
+
+
 }
